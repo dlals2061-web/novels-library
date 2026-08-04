@@ -14,6 +14,7 @@
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="apple-touch-icon" href="./icons/icon-180.png" />
     <link rel="stylesheet" href="./library.css" />
+    <link rel="stylesheet" href="./reader-tools.css" />
     <title>선택의 서가</title>
   </head>
   <body>
@@ -29,7 +30,8 @@
       <section class="shelf" aria-label="작품 목록">
         <a class="book glass-season" href="./stories/glass-season/index.html">
           <p class="book-number">01</p>
-          <div>
+          <img class="book-cover" src="./covers/glass-season-cover.webp" alt="" width="400" height="600" decoding="async" />
+          <div class="book-copy">
             <p class="book-kicker">심리극 · 로맨스 미스터리</p>
             <h2>유리 계절의 고백</h2>
             <p class="book-summary">돌아온 첫사랑, 사라진 작가, 그리고 끝내 고치지 못한 한 문장.</p>
@@ -39,7 +41,8 @@
 
         <a class="book lightless-photos" href="./stories/lightless-photos/index.html">
           <p class="book-number">02</p>
-          <div>
+          <img class="book-cover" src="./covers/lightless-photos-cover.webp" alt="" width="400" height="600" loading="lazy" decoding="async" />
+          <div class="book-copy">
             <p class="book-kicker">심리 미스터리</p>
             <h2>빛이 닿지 않은 사진</h2>
             <p class="book-summary">사라짐을 연출하려던 여자가 남긴 사진과, 실제로 사라진 시간.</p>
@@ -49,7 +52,8 @@
 
         <a class="book last-letters" href="./stories/last-letters/index.html">
           <p class="book-number">03</p>
-          <div>
+          <img class="book-cover" src="./covers/last-letters-cover.webp" alt="" width="400" height="600" loading="lazy" decoding="async" />
+          <div class="book-copy">
             <p class="book-kicker">휴먼 미스터리 · 느린 로맨스</p>
             <h2>마지막 편지를 대신 쓰는 일</h2>
             <p class="book-summary">세 통의 편지가 열세 해 전 화재와, 오늘 전할 문장을 다시 연다.</p>
@@ -69,5 +73,6 @@
     </dialog>
 
     <script src="./library.js"></script>
+    <script src="./reader-tools.js"></script>
   </body>
 </html>

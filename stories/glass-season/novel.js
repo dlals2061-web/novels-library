@@ -7,6 +7,7 @@ const TRAIT_MAX = 10;
 const story = window.STORY;
 
 const initialState = {
+  saveVersion: 1,
   sceneId: story.initialSceneId,
   flags: [],
   introducedCharacters: clone(story.initialIntroducedCharacters ?? []),
@@ -97,7 +98,7 @@ function loadState() {
 
 function saveState() {
   try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ ...state, saveVersion: 1 }));
   } catch {
     // 저장소를 사용할 수 없어도 독서는 계속 가능하다.
   }
@@ -350,6 +351,7 @@ function renderTabs() {
     const isActive = tab.dataset.tab === activeTab;
     tab.classList.toggle("is-active", isActive);
     tab.setAttribute("aria-selected", String(isActive));
+    tab.tabIndex = isActive ? 0 : -1;
   });
 
   elements.storyPanel.hidden = activeTab !== "story";
@@ -692,10 +694,6 @@ async function installApp() {
   }
 }
 
-function registerServiceWorker() {
-  // 통합 책장의 루트 서비스 워커가 두 작품의 오프라인 파일을 함께 관리한다.
-}
-
 elements.restart.addEventListener("click", restart);
 elements.install.addEventListener("click", installApp);
 elements.closeInstallDialog.addEventListener("click", () => elements.installDialog.close());
@@ -733,4 +731,3 @@ window.addEventListener("appinstalled", () => {
 
 render();
 updateInstallButton();
-registerServiceWorker();

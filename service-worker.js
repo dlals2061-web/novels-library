@@ -1,9 +1,14 @@
-const CACHE_NAME = "interactive-novel-library-v2";
+const CACHE_NAME = "interactive-novel-library-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./library.css",
   "./library.js",
+  "./reader-tools.css",
+  "./reader-tools.js",
+  "./covers/glass-season-cover.webp",
+  "./covers/lightless-photos-cover.webp",
+  "./covers/last-letters-cover.webp",
   "./manifest.webmanifest",
   "./icons/icon-180.png",
   "./icons/icon-192.png",
@@ -48,11 +53,21 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, response.clone()));
+    (async () => {
+      try {
+        const response = await fetch(event.request);
+        const url = new URL(event.request.url);
+        if (response.ok && url.origin === self.location.origin) {
+          const cache = await caches.open(CACHE_NAME);
+          await cache.put(event.request, response.clone());
+        }
         return response;
-      })
-      .catch(() => event.request.mode === "navigate" ? caches.match("./index.html") : caches.match(event.request)),
+      } catch {
+        const cached = await caches.match(event.request);
+        if (cached) return cached;
+        if (event.request.mode === "navigate") return caches.match("./index.html");
+        throw new Error("오프라인 캐시에 요청 파일이 없습니다.");
+      }
+    })(),
   );
 });

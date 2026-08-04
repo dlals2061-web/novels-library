@@ -11,6 +11,7 @@ const traitLimits = {
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const initialState = () => ({
+  saveVersion: 1,
   sceneId: story.initialSceneId,
   flags: [],
   introducedCharacters: clone(story.initialIntroducedCharacters),
@@ -61,7 +62,7 @@ function loadState() {
 
 function saveState() {
   try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ ...state, saveVersion: 1 }));
   } catch {
     // 저장이 막혀도 독서는 중단하지 않는다.
   }
@@ -233,7 +234,7 @@ async function renderStory() {
     elements.chapter.textContent = ending.label;
     elements.thread.textContent = "남은 빛";
     elements.title.textContent = ending.title;
-    elements.story.innerHTML = `<p class="ending-label">${ending.label}</p>${ending.text.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}`;
+    elements.story.innerHTML = `<p class="ending-label">${ending.label}</p><p class="ending-context">이 결말은 관계의 회복이나 재결합을 뜻하지 않습니다. 서린이 정한 경계와 기록 방식의 결과입니다.</p>${ending.text.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}`;
     elements.choices.innerHTML = "";
     return;
   }
@@ -349,6 +350,7 @@ function renderTabs() {
     const active = tab.dataset.tab === activeTab;
     tab.classList.toggle("is-active", active);
     tab.setAttribute("aria-selected", String(active));
+    tab.tabIndex = active ? 0 : -1;
   });
   elements.storyPanel.hidden = activeTab !== "story";
   elements.relationshipsPanel.hidden = activeTab !== "relationships";
@@ -372,6 +374,21 @@ elements.tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
     activeTab = tab.dataset.tab;
     render();
+  });
+
+  tab.addEventListener("keydown", (event) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const currentIndex = elements.tabs.indexOf(tab);
+    const targetIndex = event.key === "Home"
+      ? 0
+      : event.key === "End"
+        ? elements.tabs.length - 1
+        : (currentIndex + (event.key === "ArrowRight" ? 1 : -1) + elements.tabs.length) % elements.tabs.length;
+    const target = elements.tabs[targetIndex];
+    activeTab = target.dataset.tab;
+    render();
+    target.focus();
   });
 });
 

@@ -9,18 +9,20 @@ const installDialog = document.querySelector("#installDialog");
 const closeInstallDialog = document.querySelector("#closeInstallDialog");
 let deferredInstallPrompt = null;
 
-function hasReadingRecord(storyId) {
+function readingProgress(storyId) {
   try {
-    return Boolean(JSON.parse(localStorage.getItem(saveKeys[storyId]))?.sceneId);
+    const record = JSON.parse(localStorage.getItem(saveKeys[storyId]));
+    if (!record?.sceneId) return "읽기 시작";
+    if (record.sceneId === "ending" || record.sceneId.startsWith("ending")) return "결말 도달";
+    const choiceCount = Array.isArray(record.memory) ? record.memory.length : 0;
+    return choiceCount ? `선택 ${choiceCount}개 · 이어 읽기` : "이어 읽기";
   } catch {
-    return false;
+    return "읽기 시작";
   }
 }
 
 document.querySelectorAll("[data-story]").forEach((label) => {
-  if (hasReadingRecord(label.dataset.story)) {
-    label.textContent = "이어 읽기";
-  }
+  label.textContent = readingProgress(label.dataset.story);
 });
 
 window.addEventListener("beforeinstallprompt", (event) => {
