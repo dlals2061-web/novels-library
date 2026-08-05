@@ -30,6 +30,7 @@
       </header>
 
       <section class="shelf" aria-label="작품 목록">
+        <!-- public-story:glass-season:start -->
         <a class="book glass-season" href="./stories/glass-season/index.html" data-book="glass-season">
           <p class="book-number">01</p>
           <img class="book-cover" src="./covers/glass-season-cover.webp" alt="" width="400" height="600" decoding="async" />
@@ -40,7 +41,9 @@
           </div>
           <span class="progress" data-story="glass-season">읽기 시작</span>
         </a>
+        <!-- public-story:glass-season:end -->
 
+        <!-- public-story:lightless-photos:start -->
         <a class="book lightless-photos" href="./stories/lightless-photos/index.html" data-book="lightless-photos">
           <p class="book-number">02</p>
           <img class="book-cover" src="./covers/lightless-photos-cover.webp" alt="" width="400" height="600" loading="lazy" decoding="async" />
@@ -51,7 +54,9 @@
           </div>
           <span class="progress" data-story="lightless-photos">읽기 시작</span>
         </a>
+        <!-- public-story:lightless-photos:end -->
 
+        <!-- public-story:last-letters:start -->
         <a class="book last-letters" href="./stories/last-letters/index.html" data-book="last-letters">
           <p class="book-number">03</p>
           <img class="book-cover" src="./covers/last-letters-cover.webp" alt="" width="400" height="600" loading="lazy" decoding="async" />
@@ -62,6 +67,16 @@
           </div>
           <span class="progress" data-story="last-letters">읽기 시작</span>
         </a>
+        <!-- public-story:last-letters:end -->
+      </section>
+
+      <section class="ending-archive" aria-labelledby="endingArchiveTitle">
+        <div class="ending-archive-heading">
+          <p class="kicker">ENDING ARCHIVE</p>
+          <h2 id="endingArchiveTitle">내가 닿은 결말</h2>
+          <p>한 번 도달한 결말은 처음부터 다시 읽어도 이곳에 남습니다.</p>
+        </div>
+        <div id="endingArchiveList" class="ending-archive-list"></div>
       </section>
     </main>
 
@@ -91,7 +106,8 @@
       <button id="closeInstallDialog" type="button">닫기</button>
     </dialog>
 
-    <script src="./library.js"></script>
+    <script src="./catalog.js"></script>
     <script src="./reader-tools.js"></script>
+    <script src="./library.js"></script>
   </body>
 </html>

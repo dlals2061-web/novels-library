@@ -427,6 +427,7 @@ function renderStory() {
   const ending = scene.ending
     ? `<img class="ending-art" src="../../art/glass-season-ending.webp" alt="" width="800" height="600" decoding="async" /><span class="ending-label">${scene.ending}</span>`
     : "";
+  if (scene.ending?.startsWith("끝 - ")) window.NovelsReader?.recordEnding(story.id, scene.ending.replace("끝 - ", ""));
   elements.story.innerHTML = `${ending}${getSceneText(scene)
     .map((line) => `<p>${escapeHtml(line)}</p>`)
     .join("")}`;
@@ -537,6 +538,7 @@ function renderRelationships() {
       return `
         <article class="relationship-card">
           <div class="relationship-card-heading">
+            <img class="relationship-portrait" src="../../portraits/${story.id}-${character.id}.webp" alt="${character.name} 인물화" width="96" height="96" loading="lazy" decoding="async" />
             <div>
               <h3>${character.name}</h3>
               <p>${knownStage.label}</p>

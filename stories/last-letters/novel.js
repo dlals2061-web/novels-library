@@ -459,6 +459,7 @@ async function renderStory() {
   const ending = scene.ending || endingVariant?.label
     ? `<img class="ending-art" src="../../art/last-letters-ending.webp" alt="" width="800" height="600" decoding="async" /><span class="ending-label">${escapeHtml(scene.ending ?? endingVariant.label)}</span>`
     : "";
+  if (endingVariant?.label) window.NovelsReader?.recordEnding(story.id, endingVariant.label);
   elements.choices.innerHTML = "";
 
   if (!scene.file) {
@@ -568,6 +569,7 @@ function renderRelationships() {
       return `
         <article class="relationship-card">
           <div class="relationship-card-heading">
+            <img class="relationship-portrait" src="../../portraits/${story.id}-${character.id}.webp" alt="${character.name} 인물화" width="96" height="96" loading="lazy" decoding="async" />
             <div>
               <h3>${character.name}</h3>
               <p>${knownStage.label}</p>

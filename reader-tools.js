@@ -1,5 +1,6 @@
 (() => {
   const PREFERENCES_KEY = "novels-reader-preferences-v1";
+  const ENDING_HISTORY_KEY = "novels-ending-history-v1";
   const SAVE_KEYS = {
     "glass-season": "glass-season-save-v4",
     "lightless-photos": "lightless-photos-save-v1",
@@ -31,6 +32,24 @@
       return false;
     }
   }
+
+  function getEndingHistory() {
+    const saved = safeParse(readStorage(ENDING_HISTORY_KEY), {});
+    return saved && typeof saved === "object" ? saved : {};
+  }
+
+  function recordEnding(storyId, label) {
+    if (!storyId || !label) return false;
+    const history = getEndingHistory();
+    const records = Array.isArray(history[storyId]) ? history[storyId] : [];
+    if (records.some((record) => record.label === label)) return false;
+    history[storyId] = [...records, { label, reachedAt: new Date().toISOString() }];
+    const written = writeStorage(ENDING_HISTORY_KEY, JSON.stringify(history));
+    if (written) window.dispatchEvent(new CustomEvent("novels:ending-recorded", { detail: { storyId, label } }));
+    return written;
+  }
+
+  window.NovelsReader = { getEndingHistory, recordEnding };
 
   function loadPreferences() {
     const saved = safeParse(readStorage(PREFERENCES_KEY), {});
@@ -125,7 +144,7 @@
 
   dialog.querySelector("#exportReadingData").addEventListener("click", () => {
     const records = Object.fromEntries(Object.entries(SAVE_KEYS).map(([storyId, key]) => [storyId, safeParse(readStorage(key))]));
-    const payload = { format: "novels-reading-data", version: 1, exportedAt: new Date().toISOString(), preferences, records };
+    const payload = { format: "novels-reading-data", version: 1, exportedAt: new Date().toISOString(), preferences, records, endingHistory: getEndingHistory() };
     const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" }));
     const link = document.createElement("a");
     link.href = url;
@@ -154,6 +173,9 @@
       }
       if (payload.preferences && typeof payload.preferences === "object") {
         if (!writeStorage(PREFERENCES_KEY, JSON.stringify(payload.preferences))) throw new Error("브라우저 저장소에 설정을 쓸 수 없습니다.");
+      }
+      if (payload.endingHistory && typeof payload.endingHistory === "object") {
+        if (!writeStorage(ENDING_HISTORY_KEY, JSON.stringify(payload.endingHistory))) throw new Error("브라우저 저장소에 결말 기록을 쓸 수 없습니다.");
       }
       status.textContent = "독서 기록을 가져왔습니다. 화면을 새로 불러옵니다.";
       window.setTimeout(() => window.location.reload(), 700);

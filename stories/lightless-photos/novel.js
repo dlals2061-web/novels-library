@@ -231,6 +231,7 @@ async function renderStory() {
 
   if (scene.ending) {
     const ending = endingScene();
+    window.NovelsReader?.recordEnding(story.id, ending.title);
     elements.chapter.textContent = ending.label;
     elements.thread.textContent = "남은 빛";
     elements.title.textContent = ending.title;
@@ -315,7 +316,7 @@ function renderRelationships() {
     .map(
       (character) => `
         <article class="relationship-card">
-          <div class="relationship-card-heading"><h3>${escapeHtml(character.name)}</h3><p>${escapeHtml(character.role)}</p></div>
+          <div class="relationship-card-heading"><img class="relationship-portrait" src="../../portraits/${story.id}-${character.id}.webp" alt="${escapeHtml(character.name)} 인물화" width="96" height="96" loading="lazy" decoding="async" /><div><h3>${escapeHtml(character.name)}</h3><p>${escapeHtml(character.role)}</p></div></div>
           <p class="relationship-note">${escapeHtml(stageSummary(character))}</p>
           <p class="relationship-summary">${escapeHtml(relationshipTone(character.id))}</p>
         </article>`,

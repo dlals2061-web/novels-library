@@ -316,6 +316,17 @@ button:focus-visible, a:focus-visible, select:focus-visible {
   border-bottom: 1px solid var(--line);
 }
 .relationship-card-heading h3 { font-size: 1.5rem; }
+.relationship-card-heading { display: flex; align-items: center; gap: 18px; }
+.relationship-portrait {
+  width: 72px;
+  height: 72px;
+  flex: 0 0 72px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--surface-raised);
+  box-shadow: 0 7px 20px rgba(32, 29, 25, .1);
+}
 .empty-state {
   display: grid;
   min-height: 44vh;

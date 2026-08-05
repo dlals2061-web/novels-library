@@ -16,22 +16,41 @@ const storyDialogProgress = document.querySelector("#storyDialogProgress");
 const storyDialogContinue = document.querySelector("#storyDialogContinue");
 const storyDialogRestart = document.querySelector("#storyDialogRestart");
 let deferredInstallPrompt = null;
+const catalog = window.NOVELS_CATALOG ?? [];
+const catalogById = Object.fromEntries(catalog.map((story) => [story.id, story]));
 
 function readingProgress(storyId) {
   try {
     const record = JSON.parse(localStorage.getItem(saveKeys[storyId]));
-    if (!record?.sceneId) return "읽기 시작";
-    if (record.sceneId === "ending" || record.sceneId.startsWith("ending")) return "결말 도달";
+    const metadata = catalogById[storyId];
+    if (!record?.sceneId) return { label: `약 ${metadata?.estimatedMinutes ?? "?"}분 · 읽기 시작`, percent: 0 };
+    if (record.sceneId === "ending" || record.sceneId.startsWith("ending")) return { label: "결말 도달", percent: 100 };
     const choiceCount = Array.isArray(record.memory) ? record.memory.length : 0;
-    return choiceCount ? `선택 ${choiceCount}개 · 이어 읽기` : "이어 읽기";
+    const percent = Math.min(95, Math.max(3, Math.round((choiceCount / (metadata?.representativeChoices ?? 20)) * 100)));
+    return { label: `${percent}% · 선택 ${choiceCount}개`, percent };
   } catch {
-    return "읽기 시작";
+    return { label: "읽기 시작", percent: 0 };
   }
 }
 
 document.querySelectorAll("[data-story]").forEach((label) => {
-  label.textContent = readingProgress(label.dataset.story);
+  label.textContent = readingProgress(label.dataset.story).label;
 });
+
+function renderEndingArchive() {
+  const history = window.NovelsReader?.getEndingHistory?.() ?? {};
+  const host = document.querySelector("#endingArchiveList");
+  host.innerHTML = catalog.map((story) => {
+    const reached = new Set((history[story.id] ?? []).map((record) => record.label));
+    return `<article class="ending-record">
+      <div><h3>${story.title}</h3><p>${reached.size} / ${story.endings.length} 결말</p></div>
+      <ul>${story.endings.map((ending) => `<li class="${reached.has(ending) ? "is-reached" : ""}">${reached.has(ending) ? ending : "아직 닿지 않은 결말"}</li>`).join("")}</ul>
+    </article>`;
+  }).join("");
+}
+
+renderEndingArchive();
+window.addEventListener("novels:ending-recorded", renderEndingArchive);
 
 document.querySelectorAll("[data-book]").forEach((book) => {
   book.addEventListener("click", (event) => {
@@ -45,12 +64,12 @@ document.querySelectorAll("[data-book]").forEach((book) => {
     storyDialogGenre.textContent = book.querySelector(".book-kicker").textContent;
     storyDialogTitle.textContent = book.querySelector("h2").textContent;
     storyDialogSummary.textContent = book.querySelector(".book-summary").textContent;
-    storyDialogProgress.textContent = progress;
+    storyDialogProgress.textContent = progress.label;
     storyDialogContinue.href = book.href;
-    storyDialogContinue.textContent = progress === "읽기 시작" ? "읽기 시작" : "이어 읽기";
+    storyDialogContinue.textContent = progress.percent === 0 ? "읽기 시작" : "이어 읽기";
     storyDialogRestart.dataset.story = storyId;
     storyDialogRestart.dataset.href = book.href;
-    storyDialogRestart.hidden = progress === "읽기 시작";
+    storyDialogRestart.hidden = progress.percent === 0;
     storyDialog.showModal();
   });
 });
