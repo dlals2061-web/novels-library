@@ -74,9 +74,12 @@ button:focus-visible, a:focus-visible, select:focus-visible {
 .book-number { order: 0; margin: 0 0 16px; font-size: .72rem; letter-spacing: .14em; }
 .book-cover {
   order: 1;
+  height: auto;
   width: min(100%, 260px);
   margin: 0 auto 26px;
   border: 0;
+  object-fit: contain;
+  object-position: center;
   box-shadow: 0 14px 32px rgba(36, 33, 30, .12);
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
@@ -127,9 +130,11 @@ button:focus-visible, a:focus-visible, select:focus-visible {
 .story-dialog-cover {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 2 / 3;
   align-self: center;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   box-shadow: 0 14px 32px rgba(36, 33, 30, .14);
 }
 .story-dialog-copy { align-self: center; }

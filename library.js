@@ -39,7 +39,14 @@ document.querySelectorAll("[data-story]").forEach((label) => {
 
 function renderEndingArchive() {
   const history = window.NovelsReader?.getEndingHistory?.() ?? {};
+  const archive = document.querySelector("#endingArchive");
   const host = document.querySelector("#endingArchiveList");
+  const reachedCount = catalog.reduce((total, story) => total + (history[story.id]?.length ?? 0), 0);
+  archive.hidden = reachedCount === 0;
+  if (archive.hidden) {
+    host.replaceChildren();
+    return;
+  }
   host.innerHTML = catalog.map((story) => {
     const reached = new Set((history[story.id] ?? []).map((record) => record.label));
     return `<article class="ending-record">
