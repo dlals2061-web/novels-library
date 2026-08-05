@@ -34,5 +34,14 @@ window.NOVELS_CATALOG = [
       "기록의 빛",
       "남겨 둔 자리"
     ]
+  },
+  {
+    "id": "glitch-academy",
+    "title": "글리치 아카데미",
+    "estimatedMinutes": 10,
+    "representativeChoices": 2,
+    "endings": [
+      "글리치의 신호음"
+    ]
   }
 ];

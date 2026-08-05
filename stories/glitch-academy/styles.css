@@ -1,0 +1,145 @@
+/* Glitch Academy Custom Style Sheet */
+
+.hologram-status {
+  background: rgba(10, 25, 30, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15), inset 0 0 10px rgba(0, 240, 255, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  color: #c0f0ff;
+  font-family: 'Outfit', 'Inter', -apple-system, sans-serif;
+  transition: all 0.3s ease;
+}
+
+.hologram-status::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.8), transparent);
+  animation: scanning 3s linear infinite;
+}
+
+@keyframes scanning {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(200px); opacity: 0; }
+}
+
+.hologram-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.hologram-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #00f0ff;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+}
+
+.hologram-pulse {
+  font-size: 0.7rem;
+  color: #00f0ff;
+  animation: pulse 1.5s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; text-shadow: 0 0 2px rgba(0, 240, 255, 0.3); }
+  50% { opacity: 1; text-shadow: 0 0 8px rgba(0, 240, 255, 0.8); }
+}
+
+.hologram-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 480px) {
+  .hologram-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hologram-metric {
+  background: rgba(0, 240, 255, 0.05);
+  border: 1px solid rgba(0, 240, 255, 0.1);
+  border-radius: 4px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 0.7rem;
+  color: #70a0b0;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.metric-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e0f8ff;
+  text-shadow: 0 0 4px rgba(224, 248, 255, 0.3);
+}
+
+.heartbeat-value {
+  color: #ff5252;
+  text-shadow: 0 0 8px rgba(255, 82, 82, 0.4);
+  animation: heartbeat-pulse 1s infinite alternate;
+}
+
+@keyframes heartbeat-pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.03); }
+}
+
+.hologram-subtext {
+  border-top: 1px solid rgba(0, 240, 255, 0.15);
+  padding-top: 8px;
+}
+
+.subtext-label {
+  font-size: 0.7rem;
+  color: #70a0b0;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.subtext-content {
+  font-size: 0.85rem;
+  color: #00f0ff;
+  font-style: italic;
+  margin: 0;
+  text-shadow: 0 0 4px rgba(0, 240, 255, 0.3);
+  line-height: 1.4;
+}
+
+/* Base modifications to match design system */
+.reader {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+p {
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+}

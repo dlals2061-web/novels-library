@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../../design-system.css" />
+  <link rel="stylesheet" href="../../reader-tools.css" />
+  <link rel="stylesheet" href="./styles.css" />
+  <title>글리치 아카데미</title>
+</head>
+<body>
+  <main class="reader">
+    <header class="novel-header"><a href="../../index.html">선택의 서가</a><div class="header-actions"></div></header>
+    <div id="hologramStatus" class="hologram-status" aria-live="polite"></div>
+    <section class="panel" id="storyPanel"><p id="chapterLabel"></p><h1 id="sceneTitle" tabindex="-1"></h1><div id="storyText"></div><div id="choices"></div></section>
+  </main>
+  <script src="./story-data.js"></script>
+  <script src="../../reader-tools.js"></script>
+  <script src="./novel.js"></script>
+</body>
+</html>
