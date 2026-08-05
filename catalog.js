@@ -38,10 +38,14 @@ window.NOVELS_CATALOG = [
   {
     "id": "glitch-academy",
     "title": "글리치 아카데미",
-    "estimatedMinutes": 10,
-    "representativeChoices": 2,
+    "estimatedMinutes": 20,
+    "representativeChoices": 6,
     "endings": [
-      "글리치의 신호음"
+      "Ending A - 클래스 99의 전학생 (해피 엔딩)",
+      "Ending B - 헤이븐의 신입 생도 (해피 엔딩)",
+      "Ending C - 시스템 초기화 (슬픈 엔딩)",
+      "Ending E - 1초 전의 메일 (평범한 엔딩)",
+      "Ending F - 관찰자의 잔상 (평범한 엔딩)"
     ]
   }
 ];

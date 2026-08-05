@@ -59,7 +59,47 @@ function render() {
     const button = document.createElement("button");
     button.className = "choice";
     button.innerHTML = `${escapeHtml(choice.text)}<small>${escapeHtml(choice.subtext)}</small>`;
-    button.addEventListener("click", () => { state.memory.push(choice.text); state.sceneId = choice.next; render(); });
+    button.addEventListener("click", () => {
+      state.memory.push(choice.text);
+      let nextSceneId = choice.next;
+      
+      if (nextSceneId === "eval_portal_endings") {
+        const syncChoices = [
+          "\"저, 그냥 스마트폰을 루팅하려던 학생인데요...\"",
+          "\"혹시... 배고프지 않으세요? 이거 드실래요?\"",
+          "(그녀의 손을 맞잡으며) \"은설 씨야말로 손이 엄청 차가운데요.\"",
+          "떠오른 그녀의 허리를 감싸 안아 고정한다.",
+          "은설의 총구를 내리고, 그녀를 밀쳐내며 보안 공격을 대신 맞는다.",
+          "\"은설 씨가 다치는 것보단 나으니까요.\""
+        ];
+        const syncScore = state.memory.filter(c => syncChoices.includes(c)).length;
+        if (syncScore >= 4) {
+          nextSceneId = "ending_happy_reality";
+        } else if (syncScore >= 2) {
+          nextSceneId = "ending_normal_email";
+        } else {
+          nextSceneId = "ending_sad_reset";
+        }
+      } else if (nextSceneId === "eval_shield_endings") {
+        const syncChoices = [
+          "\"저, 그냥 스마트폰을 루팅하려던 학생인데요...\"",
+          "\"혹시... 배고프지 않으세요? 이거 드실래요?\"",
+          "(그녀의 손을 맞잡으며) \"은설 씨야말로 손이 엄청 차가운데요.\"",
+          "떠오른 그녀의 허리를 감싸 안아 고정한다.",
+          "은설의 총구를 내리고, 그녀를 밀쳐내며 보안 공격을 대신 맞는다.",
+          "\"은설 씨가 다치는 것보단 나으니까요.\""
+        ];
+        const syncScore = state.memory.filter(c => syncChoices.includes(c)).length;
+        if (syncScore >= 3) {
+          nextSceneId = "ending_happy_future";
+        } else {
+          nextSceneId = "ending_normal_hologram";
+        }
+      }
+      
+      state.sceneId = nextSceneId;
+      render();
+    });
     choices.append(button);
   }
 }
