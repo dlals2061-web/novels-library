@@ -15,11 +15,13 @@
     <link rel="apple-touch-icon" href="./icons/icon-180.png" />
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="../../reader-tools.css" />
+    <link rel="stylesheet" href="../../design-system.css" />
     <title>빛이 닿지 않은 사진 | 반응형 소설</title>
   </head>
   <body>
     <main class="reader">
       <header class="reader-header">
+        <a class="library-link" href="../../index.html" title="작품 목록으로 돌아가기" aria-label="작품 목록으로 돌아가기">서가</a>
         <div class="reader-title-lockup">
           <img class="reader-cover" src="../../covers/lightless-photos-cover.webp" alt="" width="400" height="600" decoding="async" />
           <div>
@@ -28,9 +30,8 @@
           </div>
         </div>
         <div class="header-actions">
-          <a class="library-link" href="../../index.html" title="작품 목록으로 돌아가기" aria-label="작품 목록으로 돌아가기">&larr;</a>
-          <button id="installButton" class="icon-button" type="button" title="홈 화면에 설치" aria-label="홈 화면에 설치" hidden>↓</button>
-          <button id="restartButton" class="icon-button" type="button" title="처음부터 다시 읽기" aria-label="처음부터 다시 읽기">↺</button>
+          <button id="installButton" class="install-button" type="button" hidden>설치</button>
+          <button id="restartButton" type="button">처음부터</button>
         </div>
       </header>
 

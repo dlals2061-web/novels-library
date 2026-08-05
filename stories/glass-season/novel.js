@@ -424,7 +424,9 @@ function renderStory() {
   elements.thread.textContent = scene.thread;
   elements.title.textContent = scene.title;
 
-  const ending = scene.ending ? `<span class="ending-label">${scene.ending}</span>` : "";
+  const ending = scene.ending
+    ? `<img class="ending-art" src="../../art/glass-season-ending.webp" alt="" width="800" height="600" decoding="async" /><span class="ending-label">${scene.ending}</span>`
+    : "";
   elements.story.innerHTML = `${ending}${getSceneText(scene)
     .map((line) => `<p>${escapeHtml(line)}</p>`)
     .join("")}`;

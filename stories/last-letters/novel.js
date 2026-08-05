@@ -457,7 +457,7 @@ async function renderStory() {
 
   const endingVariant = scene.endingVariants?.find(sceneConditionMatches);
   const ending = scene.ending || endingVariant?.label
-    ? `<span class="ending-label">${escapeHtml(scene.ending ?? endingVariant.label)}</span>`
+    ? `<img class="ending-art" src="../../art/last-letters-ending.webp" alt="" width="800" height="600" decoding="async" /><span class="ending-label">${escapeHtml(scene.ending ?? endingVariant.label)}</span>`
     : "";
   elements.choices.innerHTML = "";
 

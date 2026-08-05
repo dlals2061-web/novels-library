@@ -234,7 +234,7 @@ async function renderStory() {
     elements.chapter.textContent = ending.label;
     elements.thread.textContent = "남은 빛";
     elements.title.textContent = ending.title;
-    elements.story.innerHTML = `<p class="ending-label">${ending.label}</p><p class="ending-context">이 결말은 관계의 회복이나 재결합을 뜻하지 않습니다. 서린이 정한 경계와 기록 방식의 결과입니다.</p>${ending.text.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}`;
+    elements.story.innerHTML = `<img class="ending-art" src="../../art/lightless-photos-ending.webp" alt="" width="800" height="600" decoding="async" /><p class="ending-label">${ending.label}</p><p class="ending-context">이 결말은 관계의 회복이나 재결합을 뜻하지 않습니다. 서린이 정한 경계와 기록 방식의 결과입니다.</p>${ending.text.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}`;
     elements.choices.innerHTML = "";
     return;
   }

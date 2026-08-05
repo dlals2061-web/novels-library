@@ -7,6 +7,14 @@ const saveKeys = {
 const installButton = document.querySelector("#installButton");
 const installDialog = document.querySelector("#installDialog");
 const closeInstallDialog = document.querySelector("#closeInstallDialog");
+const storyDialog = document.querySelector("#storyDialog");
+const storyDialogCover = document.querySelector("#storyDialogCover");
+const storyDialogGenre = document.querySelector("#storyDialogGenre");
+const storyDialogTitle = document.querySelector("#storyDialogTitle");
+const storyDialogSummary = document.querySelector("#storyDialogSummary");
+const storyDialogProgress = document.querySelector("#storyDialogProgress");
+const storyDialogContinue = document.querySelector("#storyDialogContinue");
+const storyDialogRestart = document.querySelector("#storyDialogRestart");
 let deferredInstallPrompt = null;
 
 function readingProgress(storyId) {
@@ -23,6 +31,36 @@ function readingProgress(storyId) {
 
 document.querySelectorAll("[data-story]").forEach((label) => {
   label.textContent = readingProgress(label.dataset.story);
+});
+
+document.querySelectorAll("[data-book]").forEach((book) => {
+  book.addEventListener("click", (event) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    const storyId = book.dataset.book;
+    const cover = book.querySelector(".book-cover");
+    const progress = readingProgress(storyId);
+    storyDialogCover.src = cover.src;
+    storyDialogCover.alt = `${book.querySelector("h2").textContent} 표지`;
+    storyDialogGenre.textContent = book.querySelector(".book-kicker").textContent;
+    storyDialogTitle.textContent = book.querySelector("h2").textContent;
+    storyDialogSummary.textContent = book.querySelector(".book-summary").textContent;
+    storyDialogProgress.textContent = progress;
+    storyDialogContinue.href = book.href;
+    storyDialogContinue.textContent = progress === "읽기 시작" ? "읽기 시작" : "이어 읽기";
+    storyDialogRestart.dataset.story = storyId;
+    storyDialogRestart.dataset.href = book.href;
+    storyDialogRestart.hidden = progress === "읽기 시작";
+    storyDialog.showModal();
+  });
+});
+
+storyDialogRestart.addEventListener("click", () => {
+  const storyId = storyDialogRestart.dataset.story;
+  const href = storyDialogRestart.dataset.href;
+  if (!storyId || !href) return;
+  localStorage.removeItem(saveKeys[storyId]);
+  window.location.href = href;
 });
 
 window.addEventListener("beforeinstallprompt", (event) => {

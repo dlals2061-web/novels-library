@@ -1,14 +1,18 @@
-const CACHE_NAME = "interactive-novel-library-v3";
+const CACHE_NAME = "interactive-novel-library-v6";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./library.css",
+  "./design-system.css",
   "./library.js",
   "./reader-tools.css",
   "./reader-tools.js",
   "./covers/glass-season-cover.webp",
   "./covers/lightless-photos-cover.webp",
   "./covers/last-letters-cover.webp",
+  "./art/glass-season-ending.webp",
+  "./art/lightless-photos-ending.webp",
+  "./art/last-letters-ending.webp",
   "./manifest.webmanifest",
   "./icons/icon-180.png",
   "./icons/icon-192.png",
