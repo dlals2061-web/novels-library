@@ -16,12 +16,18 @@ window.STORY = {
       id: "seorin",
       name: "한서린",
       role: "낮은 빛 현상소 운영자",
+      photo: "portraits/lightless-photos-seorin.jpg",
+      x: 50,
+      y: 50,
       note: "타인의 사진을 복원하지만, 사람의 빈자리를 제 손으로 만들지는 않으려 한다.",
     },
     {
       id: "jaeho",
       name: "윤재호",
       role: "해명 아케이드 야간 시설관리 기사",
+      photo: "portraits/jaeho.jpg",
+      x: 20,
+      y: 75,
       note: "고장 난 것을 먼저 고치고, 말해야 할 것을 오래 미뤄 왔다.",
       stages: [
         { flags: ["askedDirectly", "sawPhotoTogether"], summary: "사진을 함께 보았지만, 재호가 말하지 않은 시간은 여전히 남아 있다." },
@@ -33,6 +39,9 @@ window.STORY = {
       id: "dojin",
       name: "류도진",
       role: "침수 필름의 의뢰인",
+      photo: "portraits/dojin.jpg",
+      x: 20,
+      y: 25,
       note: "사실을 조금씩 꺼내면서, 그 사실의 주인이 자신인 듯 말한다.",
       stages: [
         { flags: ["questionedDojin", "recordedDojin"], summary: "도진의 말은 정보보다, 무엇을 생략하는지부터 읽어야 하는 말이 된다." },
@@ -43,6 +52,9 @@ window.STORY = {
       id: "haeyun",
       name: "윤해윤",
       role: "재호의 누나, 오래된 사진 속 인물",
+      photo: "portraits/haeyun.jpg",
+      x: 80,
+      y: 25,
       note: "누군가의 설명으로만 남지 않기 위해, 확인된 기록과 남은 빈칸을 함께 보관해야 하는 사람.",
       stages: [
         { flags: ["evidenceLedger"], summary: "해윤의 마지막은 단정되지 않는다. 다만 자발적 퇴거라는 기존 기록은 더는 충분하지 않다." },
@@ -52,6 +64,9 @@ window.STORY = {
       id: "yeojin",
       name: "김여진",
       role: "서린의 오랜 친구, 세탁소 운영자",
+      photo: "portraits/yeojin.jpg",
+      x: 80,
+      y: 75,
       note: "다정함을 이유로 타인의 결정을 대신하지 않지만, 혼자 사라지게도 두지 않는다.",
       stages: [
         { flags: ["sharedWithYeojin", "plannedCheckIn"], summary: "여진은 서린이 남긴 일부 정보를 알지만, 그 정보가 친구를 대신 결정할 권리가 되지는 않는다." },

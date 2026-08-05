@@ -23,6 +23,7 @@ const initialState = () => ({
 let state = loadState();
 let activeTab = "story";
 let deferredInstallPrompt = null;
+let selectedCharacterId = "seorin";
 
 const elements = {
   chapter: document.querySelector("#chapterLabel"),
@@ -312,17 +313,127 @@ function relationshipTone(id) {
 
 function renderRelationships() {
   const visible = story.characters.filter((character) => state.introducedCharacters.includes(character.id));
-  elements.relationshipList.innerHTML = visible
-    .map(
-      (character) => `
-        <article class="relationship-card">
-          <div class="relationship-card-heading"><img class="relationship-portrait" src="../../portraits/${story.id}-${character.id}.webp" alt="${escapeHtml(character.name)} 인물화" width="96" height="96" loading="lazy" decoding="async" /><div><h3>${escapeHtml(character.name)}</h3><p>${escapeHtml(character.role)}</p></div></div>
-          <p class="relationship-note">${escapeHtml(stageSummary(character))}</p>
-          <p class="relationship-summary">${escapeHtml(relationshipTone(character.id))}</p>
-        </article>`,
-    )
-    .join("");
+  
+  // Define defined connections
+  const connectionDefinitions = [
+    { from: "seorin", to: "jaeho", getStyle: () => {
+        const trust = state.traits.jaehoTrust ?? 0;
+        if (trust <= -1) return { stroke: "#8a3f35", dash: "3 3", width: 1.5 }; // Tense/distant
+        if (trust >= 1) return { stroke: "#28647c", dash: "none", width: 2.0 };  // Solid trust
+        return { stroke: "#706960", dash: "none", width: 1.2 };
+      }
+    },
+    { from: "seorin", to: "yeojin", getStyle: () => {
+        return { stroke: "#706960", dash: "none", width: 1.2 };
+      }
+    },
+    { from: "seorin", to: "dojin", getStyle: () => {
+        const suspicion = state.traits.dojinSuspicion ?? 0;
+        if (suspicion >= 1) return { stroke: "#8a3f35", dash: "2 2", width: 1.5 }; // Suspicious
+        return { stroke: "#706960", dash: "none", width: 1.0 };
+      }
+    },
+    { from: "seorin", to: "haeyun", getStyle: () => ({ stroke: "#8a3f35", dash: "4 4", width: 1.0 }) }, // Mystery link
+    { from: "jaeho", to: "haeyun", getStyle: () => ({ stroke: "#706960", dash: "none", width: 1.0 }) } // Family link
+  ];
+  
+  // Filter active connections where both endpoints are visible
+  const activeConnections = connectionDefinitions.filter(conn => 
+    state.introducedCharacters.includes(conn.from) && 
+    state.introducedCharacters.includes(conn.to)
+  );
+
+  // Generate SVG lines
+  const linesHtml = activeConnections.map(conn => {
+    const fromChar = story.characters.find(c => c.id === conn.from);
+    const toChar = story.characters.find(c => c.id === conn.to);
+    const style = conn.getStyle();
+    
+    // Highlight lines connected to selected character
+    const isHighlighted = selectedCharacterId === conn.from || selectedCharacterId === conn.to;
+    const strokeColor = isHighlighted ? "#8a3f35" : style.stroke;
+    const strokeWidth = isHighlighted ? style.width * 1.5 : style.width;
+    
+    return `<line x1="${fromChar.x}" y1="${fromChar.y}" x2="${toChar.x}" y2="${toChar.y}" 
+                  stroke="${strokeColor}" stroke-width="${strokeWidth}" 
+                  stroke-dasharray="${style.dash === "none" ? "" : style.dash}" 
+                  style="transition: all 0.3s ease;" />`;
+  }).join("");
+
+  // Polaroid Cards HTML
+  const cardsHtml = visible.map(character => {
+    const isSelected = character.id === selectedCharacterId;
+    // Slight rotation for polaroid realism, using a deterministic tilt based on id length
+    const tilt = (character.id.length % 3 - 1) * 3; // -3, 0, or 3 degrees
+    
+    // Resolve photo path dynamically based on integrated library context
+    const isIntegrated = window.location.pathname.includes("/stories/");
+    let photoSrc = character.photo;
+    if (isIntegrated) {
+      if (character.id === "seorin") {
+        photoSrc = "../../portraits/lightless-photos-seorin.jpg";
+      } else {
+        photoSrc = `../../portraits/lightless-photos-${character.id}.webp`;
+      }
+    } else {
+      if (character.id === "seorin") {
+        photoSrc = "portraits/lightless-photos-seorin.jpg";
+      } else {
+        photoSrc = `portraits/lightless-photos-${character.id}.webp`;
+      }
+    }
+    
+    return `
+      <div class="polaroid-card ${isSelected ? 'is-selected' : ''}" 
+           style="left: ${character.x}%; top: ${character.y}%; --tilt: ${tilt}deg;"
+           onclick="selectRelationshipCharacter('${character.id}')"
+           role="button"
+           aria-pressed="${isSelected}"
+           tabindex="0">
+        <div class="photo-frame">
+          <img src="${photoSrc}" alt="${escapeHtml(character.name)}" class="portrait-img" />
+        </div>
+        <div class="card-caption">
+          <h4>${escapeHtml(character.name)}</h4>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  // Detail panel HTML
+  const selectedChar = story.characters.find(c => c.id === selectedCharacterId) || story.characters.find(c => c.id === "seorin");
+  const detailHtml = selectedChar ? `
+    <div class="relationship-detail-card">
+      <div class="detail-header">
+        <h3>${escapeHtml(selectedChar.name)}</h3>
+        <span class="detail-role">${escapeHtml(selectedChar.role)}</span>
+      </div>
+      <p class="detail-note"><strong>인물 설명:</strong> ${escapeHtml(selectedChar.note)}</p>
+      <p class="detail-stage"><strong>현재 상황:</strong> ${escapeHtml(stageSummary(selectedChar))}</p>
+      <p class="detail-summary"><strong>서린의 마음:</strong> ${escapeHtml(relationshipTone(selectedChar.id))}</p>
+    </div>
+  ` : "";
+
+  elements.relationshipList.innerHTML = `
+    <div class="relationship-map-wrapper">
+      <div class="relationship-map">
+        <svg class="map-connections-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          ${linesHtml}
+        </svg>
+        ${cardsHtml}
+      </div>
+      <div class="relationship-details">
+        ${detailHtml}
+      </div>
+    </div>
+  `;
 }
+
+// Add global handler for selecting character
+window.selectRelationshipCharacter = function(id) {
+  selectedCharacterId = id;
+  renderRelationships();
+};
 
 function renderMemory() {
   const labels = {
@@ -398,6 +509,7 @@ elements.restart.addEventListener("click", () => {
   state = initialState();
   localStorage.removeItem(SAVE_KEY);
   activeTab = "story";
+  selectedCharacterId = "seorin";
   render().then(scrollToTop);
 });
 
