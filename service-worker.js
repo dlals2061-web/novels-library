@@ -33,6 +33,7 @@ const STORY_SHELLS = {
     ...Array.from({ length: 17 }, (_, index) => `./stories/last-letters/chapters/chapter-${String(index + 1).padStart(2, "0")}.md`),
   ],
   "glitch-academy": [
+    "./covers/glitch-academy-cover.webp", "./art/glitch-academy-ending.webp",
     "./stories/glitch-academy/index.html", "./stories/glitch-academy/styles.css",
     "./stories/glitch-academy/story-data.js", "./stories/glitch-academy/novel.js",
     "./stories/glitch-academy/icons/icon-180.png", "./stories/glitch-academy/icons/icon-192.png", "./stories/glitch-academy/icons/icon-512.png",
