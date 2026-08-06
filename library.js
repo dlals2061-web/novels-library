@@ -138,6 +138,36 @@ function updateHomeContinue() {
 
 updateHomeContinue();
 
+function renderLibraryDashboard() {
+  const history = window.NovelsReader?.getEndingHistory?.() ?? {};
+  const totalEndings = catalog.reduce((total, story) => total + (story.endings?.length ?? 0), 0);
+  const reachedEndings = catalog.reduce((total, story) => total + (history[story.id]?.length ?? 0), 0);
+  const progressEntries = catalog.map((story) => readingProgress(story.id));
+  const readStories = progressEntries.filter((progress) => progress.percent > 0).length;
+  const choices = catalog.reduce((total, story) => {
+    try {
+      const record = JSON.parse(localStorage.getItem(saveKeys[story.id]));
+      return total + (Array.isArray(record?.memory) ? record.memory.length : 0);
+    } catch {
+      return total;
+    }
+  }, 0);
+  const percent = totalEndings ? Math.round((reachedEndings / totalEndings) * 100) : 0;
+  const assign = (selector, value) => {
+    const element = document.querySelector(selector);
+    if (element) element.textContent = value;
+  };
+  assign("#collectionPercent", `${percent}%`);
+  assign("#collectionCount", `${reachedEndings} / ${totalEndings} 결말`);
+  assign("#readStoriesCount", readStories);
+  assign("#chosenCount", choices);
+  assign("#endingCount", reachedEndings);
+}
+
+renderLibraryDashboard();
+window.addEventListener("novels:ending-recorded", renderLibraryDashboard);
+window.addEventListener("novels:activity-updated", renderLibraryDashboard);
+
 function renderEndingArchive() {
   const history = window.NovelsReader?.getEndingHistory?.() ?? {};
   const archive = document.querySelector("#endingArchive");

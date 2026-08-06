@@ -1,7 +1,7 @@
-const CACHE_NAME = "interactive-novel-library-v12";
+const CACHE_NAME = "interactive-novel-library-v13";
 const ENABLED_STORIES = ["glass-season","lightless-photos","last-letters","glitch-academy","five-seventeen"];
 const COMMON_SHELL = [
-  "./", "./index.html", "./library.css", "./design-system.css", "./catalog.js", "./library.js",
+  "./", "./index.html", "./library.css", "./design-system.css", "./catalog.js", "./library.js", "./art/home-library-hero.png",
   "./reader-tools.css", "./reader-tools.js", "./manifest.webmanifest",
   "./icons/icon-180.png", "./icons/icon-192.png", "./icons/icon-512.png",
   "./splash/launch-1290x2796.png", "./splash/launch-1179x2556.png", "./splash/launch-1170x2532.png",

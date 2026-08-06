@@ -48,12 +48,28 @@
     <main class="library">
       <header class="library-header">
         <div>
-          <p class="kicker">SILENT ARCHIVE</p>
-          <h1>선택의 서가</h1>
-          <p class="library-intro">천천히 읽고, 선택하고, 오래 남겨 두는 다섯 편의 이야기.</p>
+          <p class="kicker">선택의 서가</p>
+          <h1>내 서재</h1>
+          <p class="library-intro">당신의 선택이, 오래 남은 이야기가 됩니다.</p>
         </div>
         <button id="installButton" class="install-button" type="button" hidden>설치</button>
       </header>
+
+      <section class="library-dashboard" aria-labelledby="dashboardTitle">
+        <div class="dashboard-heading">
+          <div><p class="kicker">MY COLLECTION</p><h2 id="dashboardTitle">내가 만든 이야기</h2></div>
+          <a href="#collection">전체 보기 <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="collection-progress">
+          <div class="collection-ring"><strong id="collectionPercent">0%</strong><span id="collectionCount">0 / 21 결말</span></div>
+          <dl>
+            <div><dt id="readStoriesCount">0</dt><dd>읽은 이야기</dd></div>
+            <div><dt id="chosenCount">0</dt><dd>내 선택</dd></div>
+            <div><dt id="endingCount">0</dt><dd>수집한 결말</dd></div>
+          </dl>
+          <img src="./art/home-library-hero.png" alt="책이 쌓인 조용한 서재" width="768" height="432" />
+        </div>
+      </section>
 
       <section id="continueReading" class="continue-reading" aria-labelledby="continueReadingTitle" hidden>
         <div class="continue-reading-heading">
@@ -66,31 +82,14 @@
         <div id="continueReadingCard"></div>
       </section>
 
-      <section class="home-hero" aria-labelledby="homeHeroTitle">
-        <div class="home-hero-copy">
-          <p class="kicker">TODAY'S SHELF</p>
-          <p class="home-eyebrow">한 번의 선택이 문장을 다른 곳으로 데려갑니다.</p>
-          <h2 id="homeHeroTitle">오늘, 어떤 이야기의<br />첫 문장을 열까요?</h2>
-          <p class="home-hero-description">선택의 서가에는 읽은 자리와 도달한 결말이 남습니다. 마음이 가는 책부터 천천히 시작해 보세요.</p>
-          <div class="home-hero-actions">
-            <a id="homeContinue" class="home-primary-action" href="./stories/glass-season/index.html">첫 이야기 읽기</a>
-            <a class="home-secondary-action" href="#collection">모든 작품 보기 <span aria-hidden="true">↓</span></a>
-          </div>
+      <section id="newStory" class="new-story" aria-labelledby="newStoryTitle">
+        <img src="./covers/five-seventeen-cover.webp" alt="오후 5시 17분의 우리 표지" width="400" height="600" loading="lazy" decoding="async" />
+        <div>
+          <p class="kicker">새로운 이야기</p>
+          <h2 id="newStoryTitle">오후 5시 17분의 우리</h2>
+          <p>익명의 답장과 교내 방송 사이에서, 열일곱의 마음이 자기 목소리를 찾습니다.</p>
+          <a href="./stories/five-seventeen/index.html">새 이야기 살펴보기 <span aria-hidden="true">→</span></a>
         </div>
-        <aside class="home-featured" aria-label="오늘의 추천 작품">
-          <p class="home-featured-label">FEATURED STORY</p>
-          <img src="./covers/glass-season-cover.webp" alt="유리 계절의 고백 표지" width="400" height="600" decoding="async" />
-          <div>
-            <p>심리극 · 로맨스 미스터리</p>
-            <h3>유리 계절의 고백</h3>
-            <span id="homeFeaturedMeta">약 150분 · 46개의 선택</span>
-          </div>
-        </aside>
-        <dl class="home-stats" aria-label="서가 안내">
-          <div><dt>5</dt><dd>개의 이야기</dd></div>
-          <div><dt>21</dt><dd>개의 서로 다른 결말</dd></div>
-          <div><dt>20–150</dt><dd>분의 독서</dd></div>
-        </dl>
       </section>
 
       <section id="collection" class="collection-section" aria-labelledby="collectionTitle">
@@ -174,6 +173,13 @@
         <div id="endingArchiveList" class="ending-archive-list"></div>
       </section>
     </main>
+
+    <nav class="app-nav" aria-label="주요 메뉴">
+      <a class="is-active" href="#dashboardTitle">홈</a>
+      <a href="#collection">서가</a>
+      <a href="#newStory">상점</a>
+      <a href="#dashboardTitle">내 서재</a>
+    </nav>
 
     <dialog id="storyDialog" class="story-dialog" aria-labelledby="storyDialogTitle">
       <form method="dialog" class="story-dialog-sheet">

@@ -102,7 +102,8 @@
   const button = document.createElement("button");
   button.type = "button";
   button.className = "reader-settings-button";
-  button.textContent = "읽기 설정";
+  button.textContent = window.STORY ? "읽기 설정" : "설정";
+  button.setAttribute("aria-label", window.STORY ? "읽기 설정 열기" : "설정 열기");
   button.setAttribute("aria-haspopup", "dialog");
 
   const dialog = document.createElement("dialog");
