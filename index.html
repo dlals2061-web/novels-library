@@ -17,8 +17,29 @@
     <link rel="stylesheet" href="./reader-tools.css" />
     <link rel="stylesheet" href="./design-system.css" />
     <title>선택의 서가</title>
+    <script>
+      try {
+        const splashKey = "novels-library-splash-seen";
+        if (sessionStorage.getItem(splashKey)) document.documentElement.classList.add("splash-seen");
+        else sessionStorage.setItem(splashKey, "true");
+      } catch {}
+    </script>
   </head>
   <body>
+    <div id="appSplash" class="app-splash" aria-hidden="true">
+      <div class="app-splash-lockup">
+        <svg class="app-splash-mark" viewBox="0 0 120 96" role="presentation" focusable="false">
+          <path class="app-splash-back" d="M25 24H17c-4.4 0-8 3.6-8 8v45c0 4.4 3.6 8 8 8h30c4 0 8.1 1.5 13 4.5C64.9 86.5 69 85 73 85h30c4.4 0 8-3.6 8-8V32c0-4.4-3.6-8-8-8h-8" />
+          <path class="app-splash-page app-splash-page-left" d="M60 87c-8-7.3-17.7-11-29-11H20V15h14c11.1 0 19.8 4.8 26 14.5V87Z" />
+          <path class="app-splash-page app-splash-page-right" d="M60 87c8-7.3 17.7-11 29-11h11V15H86c-11.1 0-19.8 4.8-26 14.5V87Z" />
+        </svg>
+        <div class="app-splash-copy">
+          <p>선택의 서가</p>
+          <span>SILENT ARCHIVE</span>
+        </div>
+      </div>
+    </div>
+
     <main class="library">
       <header class="library-header">
         <div>

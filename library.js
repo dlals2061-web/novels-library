@@ -17,9 +17,25 @@ const storyDialogSummary = document.querySelector("#storyDialogSummary");
 const storyDialogProgress = document.querySelector("#storyDialogProgress");
 const storyDialogContinue = document.querySelector("#storyDialogContinue");
 const storyDialogRestart = document.querySelector("#storyDialogRestart");
+const appSplash = document.querySelector("#appSplash");
 let deferredInstallPrompt = null;
 const catalog = window.NOVELS_CATALOG ?? [];
 const catalogById = Object.fromEntries(catalog.map((story) => [story.id, story]));
+
+if (appSplash) {
+  if (document.documentElement.classList.contains("splash-seen")) {
+    appSplash.remove();
+  } else {
+    const removeSplash = () => appSplash.remove();
+    const handleSplashEnd = (event) => {
+      if (event.target !== appSplash) return;
+      appSplash.removeEventListener("animationend", handleSplashEnd);
+      removeSplash();
+    };
+    appSplash.addEventListener("animationend", handleSplashEnd);
+    window.setTimeout(removeSplash, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 500 : 1800);
+  }
+}
 
 function readingProgress(storyId) {
   try {

@@ -20,6 +20,110 @@ body {
 button { color: inherit; font: inherit; }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
 
+.app-splash {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--paper);
+  animation: splash-leave 320ms cubic-bezier(.4, 0, .2, 1) 1050ms forwards;
+}
+
+.app-splash-lockup {
+  display: grid;
+  justify-items: center;
+  gap: 24px;
+  transform: translateY(-1.5vh);
+}
+
+.app-splash-mark {
+  width: clamp(112px, 31vw, 152px);
+  overflow: visible;
+  fill: none;
+  stroke: #873326;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 6;
+  filter: drop-shadow(0 10px 16px rgba(67, 37, 30, .08));
+  animation: splash-mark-arrive 350ms cubic-bezier(.2, .75, .25, 1) both;
+}
+
+.app-splash-back {
+  opacity: 0;
+  animation: splash-line-arrive 280ms ease-out 120ms forwards;
+}
+
+.app-splash-page {
+  transform-box: fill-box;
+  animation-duration: 520ms;
+  animation-delay: 220ms;
+  animation-timing-function: cubic-bezier(.2, .8, .25, 1);
+  animation-fill-mode: both;
+}
+
+.app-splash-page-left {
+  transform-origin: right bottom;
+  animation-name: splash-open-left;
+}
+
+.app-splash-page-right {
+  transform-origin: left bottom;
+  animation-name: splash-open-right;
+}
+
+.app-splash-copy {
+  opacity: 0;
+  text-align: center;
+  transform: translateY(6px);
+  animation: splash-copy-arrive 360ms ease-out 650ms forwards;
+}
+
+.app-splash-copy p {
+  margin-bottom: 8px;
+  font-size: clamp(1.55rem, 6vw, 2rem);
+  letter-spacing: -.02em;
+}
+
+.app-splash-copy span {
+  color: #7a2f25;
+  font-family: Arial, "Noto Sans KR", sans-serif;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+}
+
+.splash-seen .app-splash { display: none; }
+
+@keyframes splash-mark-arrive {
+  from { opacity: 0; transform: scale(.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes splash-line-arrive {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes splash-open-left {
+  from { opacity: .25; transform: scaleX(.78) rotate(4deg); }
+  to { opacity: 1; transform: scaleX(1) rotate(0); }
+}
+
+@keyframes splash-open-right {
+  from { opacity: .25; transform: scaleX(.78) rotate(-4deg); }
+  to { opacity: 1; transform: scaleX(1) rotate(0); }
+}
+
+@keyframes splash-copy-arrive {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes splash-leave {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
 .library { width: min(880px, calc(100% - 32px)); margin: 0 auto; padding: 52px 0 64px; }
 .library-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding-bottom: 30px; border-bottom: 1px solid var(--line); }
 .kicker, .book-kicker, .book-number, .progress { font-family: Arial, "Noto Sans KR", sans-serif; }
@@ -69,4 +173,19 @@ h2 { margin-bottom: 12px; font-size: clamp(1.55rem, 4vw, 2.35rem); line-height: 
   .progress { grid-column: 3; grid-row: 2; justify-self: start; margin-top: 4px; }
   .book-summary { font-size: .96rem; }
   .ending-archive-list { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-splash {
+    animation: splash-leave 160ms ease-out 120ms forwards;
+  }
+
+  .app-splash-mark,
+  .app-splash-back,
+  .app-splash-page,
+  .app-splash-copy {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
