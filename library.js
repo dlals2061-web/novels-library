@@ -125,6 +125,19 @@ document.querySelectorAll("[data-story]").forEach((label) => {
 renderContinueReading();
 window.addEventListener("novels:activity-updated", renderContinueReading);
 
+function updateHomeContinue() {
+  const homeContinue = document.querySelector("#homeContinue");
+  if (!homeContinue) return;
+  const inProgress = catalog
+    .map((story) => ({ story, progress: readingProgress(story.id) }))
+    .find(({ progress }) => progress.percent > 0 && progress.percent < 100);
+  if (!inProgress) return;
+  homeContinue.href = `./stories/${inProgress.story.id}/index.html`;
+  homeContinue.textContent = `${inProgress.story.title} 이어 읽기`;
+}
+
+updateHomeContinue();
+
 function renderEndingArchive() {
   const history = window.NovelsReader?.getEndingHistory?.() ?? {};
   const archive = document.querySelector("#endingArchive");

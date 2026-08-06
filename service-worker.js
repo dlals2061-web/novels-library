@@ -1,4 +1,4 @@
-const CACHE_NAME = "interactive-novel-library-v11";
+const CACHE_NAME = "interactive-novel-library-v12";
 const ENABLED_STORIES = ["glass-season","lightless-photos","last-letters","glitch-academy","five-seventeen"];
 const COMMON_SHELL = [
   "./", "./index.html", "./library.css", "./design-system.css", "./catalog.js", "./library.js",

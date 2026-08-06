@@ -66,7 +66,39 @@
         <div id="continueReadingCard"></div>
       </section>
 
-      <section class="shelf" aria-label="작품 목록">
+      <section class="home-hero" aria-labelledby="homeHeroTitle">
+        <div class="home-hero-copy">
+          <p class="kicker">TODAY'S SHELF</p>
+          <p class="home-eyebrow">한 번의 선택이 문장을 다른 곳으로 데려갑니다.</p>
+          <h2 id="homeHeroTitle">오늘, 어떤 이야기의<br />첫 문장을 열까요?</h2>
+          <p class="home-hero-description">선택의 서가에는 읽은 자리와 도달한 결말이 남습니다. 마음이 가는 책부터 천천히 시작해 보세요.</p>
+          <div class="home-hero-actions">
+            <a id="homeContinue" class="home-primary-action" href="./stories/glass-season/index.html">첫 이야기 읽기</a>
+            <a class="home-secondary-action" href="#collection">모든 작품 보기 <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
+        <aside class="home-featured" aria-label="오늘의 추천 작품">
+          <p class="home-featured-label">FEATURED STORY</p>
+          <img src="./covers/glass-season-cover.webp" alt="유리 계절의 고백 표지" width="400" height="600" decoding="async" />
+          <div>
+            <p>심리극 · 로맨스 미스터리</p>
+            <h3>유리 계절의 고백</h3>
+            <span id="homeFeaturedMeta">약 150분 · 46개의 선택</span>
+          </div>
+        </aside>
+        <dl class="home-stats" aria-label="서가 안내">
+          <div><dt>5</dt><dd>개의 이야기</dd></div>
+          <div><dt>21</dt><dd>개의 서로 다른 결말</dd></div>
+          <div><dt>20–150</dt><dd>분의 독서</dd></div>
+        </dl>
+      </section>
+
+      <section id="collection" class="collection-section" aria-labelledby="collectionTitle">
+        <div class="collection-heading">
+          <div><p class="kicker">THE COLLECTION</p><h2 id="collectionTitle">이야기 고르기</h2></div>
+          <p>마음에 남는 표지에서 시작해도 좋습니다.</p>
+        </div>
+      <div class="shelf" aria-label="작품 목록">
         <!-- public-story:glass-season:start -->
         <a class="book glass-season" href="./stories/glass-season/index.html" data-book="glass-season">
           <p class="book-number">01</p>
@@ -118,7 +150,6 @@
           <span class="progress" data-story="glitch-academy">읽기 시작</span>
         </a>
         <!-- public-story:glitch-academy:end -->
-
         <!-- public-story:five-seventeen:start -->
         <a class="book five-seventeen" href="./stories/five-seventeen/index.html" data-book="five-seventeen">
           <p class="book-number">05</p>
@@ -131,6 +162,7 @@
           <span class="progress" data-story="five-seventeen">읽기 시작</span>
         </a>
         <!-- public-story:five-seventeen:end -->
+      </div>
       </section>
 
       <section id="endingArchive" class="ending-archive" aria-labelledby="endingArchiveTitle" hidden>
