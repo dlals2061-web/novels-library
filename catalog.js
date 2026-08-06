@@ -4,6 +4,8 @@ window.NOVELS_CATALOG = [
     "title": "유리 계절의 고백",
     "estimatedMinutes": 150,
     "representativeChoices": 46,
+    "sceneCount": 93,
+    "excerpt": "비가 유리창을 씻고 있었다. 서아는 그 표현이 마음에 들지 않아 원고 위에 커서를 올렸다.",
     "endings": [
       "다시 쓰지 않는 사랑",
       "밖으로 나간 사람",
@@ -16,6 +18,8 @@ window.NOVELS_CATALOG = [
     "title": "빛이 닿지 않은 사진",
     "estimatedMinutes": 95,
     "representativeChoices": 19,
+    "sceneCount": 24,
+    "excerpt": "서린은 사진 속 사람보다 먼저 먼지를 보았다.",
     "endings": [
       "혼자 남긴 기록",
       "미완의 복원",
@@ -28,6 +32,8 @@ window.NOVELS_CATALOG = [
     "title": "마지막 편지를 대신 쓰는 일",
     "estimatedMinutes": 85,
     "representativeChoices": 19,
+    "sceneCount": 20,
+    "excerpt": "서윤은 이혼 편지에서 ‘미안해요’를 지우고, ‘나는 그때 겁이 났어요’라고 적었다.",
     "endings": [
       "오늘의 문장",
       "보관의 거리",
@@ -40,6 +46,8 @@ window.NOVELS_CATALOG = [
     "title": "글리치 아카데미",
     "estimatedMinutes": 20,
     "representativeChoices": 6,
+    "sceneCount": 21,
+    "excerpt": "차가운 금속 격벽에 등이 닿는 서늘한 느낌에 눈을 떴다. 익숙하던 교실은 사라져 있었다.",
     "endings": [
       "Ending A - 클래스 99의 전학생 (해피 엔딩)",
       "Ending B - 헤이븐의 신입 생도 (해피 엔딩)",
@@ -53,6 +61,8 @@ window.NOVELS_CATALOG = [
     "title": "오후 5시 17분의 우리",
     "estimatedMinutes": 45,
     "representativeChoices": 17,
+    "sceneCount": 18,
+    "excerpt": "오후 다섯 시 십칠 분이 되자 방송실의 디지털 시계가 한 번 깜빡였다.",
     "endings": [
       "같은 주파수",
       "늦게 도착한 답장",

@@ -1,9 +1,11 @@
-const CACHE_NAME = "interactive-novel-library-v10";
+const CACHE_NAME = "interactive-novel-library-v11";
 const ENABLED_STORIES = ["glass-season","lightless-photos","last-letters","glitch-academy","five-seventeen"];
 const COMMON_SHELL = [
   "./", "./index.html", "./library.css", "./design-system.css", "./catalog.js", "./library.js",
   "./reader-tools.css", "./reader-tools.js", "./manifest.webmanifest",
   "./icons/icon-180.png", "./icons/icon-192.png", "./icons/icon-512.png",
+  "./splash/launch-1290x2796.png", "./splash/launch-1179x2556.png", "./splash/launch-1170x2532.png",
+  "./splash/launch-828x1792.png", "./splash/launch-750x1334.png",
 ];
 const STORY_SHELLS = {
   "glass-season": [
@@ -50,7 +52,10 @@ const APP_SHELL = [...COMMON_SHELL, ...ENABLED_STORIES.flatMap((storyId) => STOR
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
-  self.skipWaiting();
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {

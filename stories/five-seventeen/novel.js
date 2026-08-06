@@ -162,7 +162,7 @@ function render() {
 }
 
 elements.restart.addEventListener("click", () => {
-  if (!window.confirm("이 작품의 독서 기록을 지우고 처음부터 읽을까요?")) return;
+  if (!window.confirm("현재 장면과 선택 기록을 지우고 첫 장으로 돌아갈까요? 이미 도달한 결말은 서가에 남습니다.")) return;
   state = initialState();
   saveState();
   render();

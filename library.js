@@ -14,9 +14,17 @@ const storyDialogCover = document.querySelector("#storyDialogCover");
 const storyDialogGenre = document.querySelector("#storyDialogGenre");
 const storyDialogTitle = document.querySelector("#storyDialogTitle");
 const storyDialogSummary = document.querySelector("#storyDialogSummary");
+const storyDialogDuration = document.querySelector("#storyDialogDuration");
+const storyDialogScenes = document.querySelector("#storyDialogScenes");
+const storyDialogEndings = document.querySelector("#storyDialogEndings");
+const storyDialogExcerpt = document.querySelector("#storyDialogExcerpt");
 const storyDialogProgress = document.querySelector("#storyDialogProgress");
 const storyDialogContinue = document.querySelector("#storyDialogContinue");
 const storyDialogRestart = document.querySelector("#storyDialogRestart");
+const restartDialog = document.querySelector("#restartDialog");
+const continueReading = document.querySelector("#continueReading");
+const continueReadingCard = document.querySelector("#continueReadingCard");
+const continueReadingUpdated = document.querySelector("#continueReadingUpdated");
 const appSplash = document.querySelector("#appSplash");
 let deferredInstallPrompt = null;
 const catalog = window.NOVELS_CATALOG ?? [];
@@ -42,18 +50,80 @@ function readingProgress(storyId) {
     const record = JSON.parse(localStorage.getItem(saveKeys[storyId]));
     const metadata = catalogById[storyId];
     if (!record?.sceneId) return { label: `약 ${metadata?.estimatedMinutes ?? "?"}분 · 읽기 시작`, percent: 0 };
-    if (record.sceneId === "ending" || record.sceneId.startsWith("ending")) return { label: "결말 도달", percent: 100 };
+    const activity = window.NovelsReader?.getReadingActivity?.()[storyId];
+    if (record.sceneId === "ending" || record.sceneId.startsWith("ending") || activity?.isEnding) {
+      return { label: "결말 도달", percent: 100, activity };
+    }
     const choiceCount = Array.isArray(record.memory) ? record.memory.length : 0;
-    const percent = Math.min(95, Math.max(3, Math.round((choiceCount / (metadata?.representativeChoices ?? 20)) * 100)));
-    return { label: `${percent}% · 선택 ${choiceCount}개`, percent };
+    const exactActivity = activity?.sceneId === record.sceneId ? activity : null;
+    const percent = exactActivity?.percent ?? Math.min(95, Math.max(3, Math.round((choiceCount / (metadata?.representativeChoices ?? 20)) * 100)));
+    const location = [exactActivity?.chapter, exactActivity?.title].filter(Boolean).join(" · ");
+    return { label: `${percent}% · 선택 ${choiceCount}개`, detail: location ? `${percent}% · ${location}` : "", percent, activity: exactActivity };
   } catch {
     return { label: "읽기 시작", percent: 0 };
   }
 }
 
+function escapeHtml(value = "") {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function relativeTime(value) {
+  const timestamp = Date.parse(value);
+  if (!Number.isFinite(timestamp)) return "이전에 읽던 기록";
+  const minutes = Math.max(0, Math.round((Date.now() - timestamp) / 60000));
+  if (minutes < 1) return "방금 읽음";
+  if (minutes < 60) return `${minutes}분 전 읽음`;
+  const hours = Math.round(minutes / 60);
+  if (hours < 24) return `${hours}시간 전 읽음`;
+  const days = Math.round(hours / 24);
+  return days < 30 ? `${days}일 전 읽음` : new Intl.DateTimeFormat("ko", { month: "long", day: "numeric" }).format(timestamp);
+}
+
+function renderContinueReading() {
+  const candidates = catalog.map((story, index) => {
+    const progress = readingProgress(story.id);
+    const book = document.querySelector(`[data-book="${story.id}"]`);
+    return { story, index, progress, book };
+  }).filter(({ progress }) => progress.percent > 0 && progress.percent < 100);
+  candidates.sort((a, b) => {
+    const aTime = Date.parse(a.progress.activity?.updatedAt ?? "") || 0;
+    const bTime = Date.parse(b.progress.activity?.updatedAt ?? "") || 0;
+    return bTime - aTime || a.index - b.index;
+  });
+  const current = candidates[0];
+  continueReading.hidden = !current;
+  if (!current) {
+    continueReadingCard.replaceChildren();
+    return;
+  }
+  const { story, progress, book } = current;
+  const cover = book.querySelector(".book-cover");
+  const lastChoice = progress.activity?.lastChoice ? `마지막 선택 · ${progress.activity.lastChoice}` : "선택 기록이 이 기기에 저장되어 있습니다.";
+  continueReadingUpdated.textContent = relativeTime(progress.activity?.updatedAt);
+  continueReadingCard.innerHTML = `<a class="continue-card" href="${escapeHtml(book.href)}">
+    <img class="continue-card-cover" src="${escapeHtml(cover.src)}" alt="" width="400" height="600" />
+    <div class="continue-card-copy">
+      <p class="book-kicker">${escapeHtml(book.querySelector(".book-kicker").textContent)}</p>
+      <h3>${escapeHtml(story.title)}</h3>
+      <p class="continue-card-location">${escapeHtml(progress.detail || progress.label)}</p>
+      <p class="continue-card-choice">${escapeHtml(lastChoice)}</p>
+      <div class="continue-card-progress" role="progressbar" aria-label="독서 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress.percent}"><span style="width:${progress.percent}%"></span></div>
+    </div>
+    <span class="continue-card-action">이어 읽기</span>
+  </a>`;
+}
+
 document.querySelectorAll("[data-story]").forEach((label) => {
   label.textContent = readingProgress(label.dataset.story).label;
 });
+renderContinueReading();
+window.addEventListener("novels:activity-updated", renderContinueReading);
 
 function renderEndingArchive() {
   const history = window.NovelsReader?.getEndingHistory?.() ?? {};
@@ -89,7 +159,11 @@ document.querySelectorAll("[data-book]").forEach((book) => {
     storyDialogGenre.textContent = book.querySelector(".book-kicker").textContent;
     storyDialogTitle.textContent = book.querySelector("h2").textContent;
     storyDialogSummary.textContent = book.querySelector(".book-summary").textContent;
-    storyDialogProgress.textContent = progress.label;
+    storyDialogDuration.textContent = `약 ${catalogById[storyId]?.estimatedMinutes ?? "?"}분`;
+    storyDialogScenes.textContent = `${catalogById[storyId]?.sceneCount ?? "?"}개`;
+    storyDialogEndings.textContent = `${catalogById[storyId]?.endings?.length ?? "?"}개`;
+    storyDialogExcerpt.textContent = catalogById[storyId]?.excerpt ?? "";
+    storyDialogProgress.textContent = progress.detail || progress.label;
     storyDialogContinue.href = book.href;
     storyDialogContinue.textContent = progress.percent === 0 ? "읽기 시작" : "이어 읽기";
     storyDialogRestart.dataset.story = storyId;
@@ -103,7 +177,18 @@ storyDialogRestart.addEventListener("click", () => {
   const storyId = storyDialogRestart.dataset.story;
   const href = storyDialogRestart.dataset.href;
   if (!storyId || !href) return;
+  restartDialog.dataset.story = storyId;
+  restartDialog.dataset.href = href;
+  restartDialog.showModal();
+});
+
+restartDialog.addEventListener("close", () => {
+  if (restartDialog.returnValue !== "confirm") return;
+  const storyId = restartDialog.dataset.story;
+  const href = restartDialog.dataset.href;
+  if (!storyId || !href) return;
   localStorage.removeItem(saveKeys[storyId]);
+  window.NovelsReader?.removeReadingActivity?.(storyId);
   window.location.href = href;
 });
 
@@ -125,7 +210,3 @@ installButton.addEventListener("click", async () => {
 });
 
 closeInstallDialog.addEventListener("click", () => installDialog.close());
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
-}

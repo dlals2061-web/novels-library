@@ -223,7 +223,7 @@ function choiceRequirementsMet(choice) {
 }
 
 function restart() {
-  if (!window.confirm("현재 기록과 선택을 지우고 첫 장으로 돌아갈까요?")) {
+  if (!window.confirm("현재 장면과 선택 기록을 지우고 첫 장으로 돌아갈까요? 이미 도달한 결말은 서가에 남습니다.")) {
     return;
   }
 

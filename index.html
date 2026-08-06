@@ -13,6 +13,11 @@
     <meta name="apple-mobile-web-app-title" content="선택의 서가" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="apple-touch-icon" href="./icons/icon-180.png" />
+    <link rel="apple-touch-startup-image" href="./splash/launch-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="./splash/launch-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="./splash/launch-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="./splash/launch-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="./splash/launch-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" />
     <link rel="stylesheet" href="./library.css" />
     <link rel="stylesheet" href="./reader-tools.css" />
     <link rel="stylesheet" href="./design-system.css" />
@@ -49,6 +54,17 @@
         </div>
         <button id="installButton" class="install-button" type="button" hidden>설치</button>
       </header>
+
+      <section id="continueReading" class="continue-reading" aria-labelledby="continueReadingTitle" hidden>
+        <div class="continue-reading-heading">
+          <div>
+            <p class="kicker">RETURN TO STORY</p>
+            <h2 id="continueReadingTitle">이어 읽기</h2>
+          </div>
+          <p id="continueReadingUpdated"></p>
+        </div>
+        <div id="continueReadingCard"></div>
+      </section>
 
       <section class="shelf" aria-label="작품 목록">
         <!-- public-story:glass-season:start -->
@@ -135,6 +151,12 @@
           <p id="storyDialogGenre" class="book-kicker"></p>
           <h2 id="storyDialogTitle"></h2>
           <p id="storyDialogSummary" class="story-dialog-summary"></p>
+          <dl class="story-dialog-facts" aria-label="작품 정보">
+            <div><dt>예상 시간</dt><dd id="storyDialogDuration"></dd></div>
+            <div><dt>장면</dt><dd id="storyDialogScenes"></dd></div>
+            <div><dt>결말</dt><dd id="storyDialogEndings"></dd></div>
+          </dl>
+          <blockquote id="storyDialogExcerpt" class="story-dialog-excerpt"></blockquote>
           <div class="story-dialog-progress" aria-label="독서 상태">
             <span>현재 기록</span><strong id="storyDialogProgress"></strong>
           </div>
@@ -151,6 +173,18 @@
         <p>Safari에서는 공유 메뉴에서 '홈 화면에 추가'를 선택하면 독립된 앱처럼 읽을 수 있습니다.</p>
       </div>
       <button id="closeInstallDialog" type="button">닫기</button>
+    </dialog>
+
+    <dialog id="restartDialog" class="restart-dialog" aria-labelledby="restartDialogTitle">
+      <form method="dialog">
+        <p class="kicker">START AGAIN</p>
+        <h2 id="restartDialogTitle">처음부터 읽을까요?</h2>
+        <p>이 작품의 현재 장면과 선택 기록은 지워집니다. 이미 도달한 결말은 서가에 계속 남습니다.</p>
+        <div class="restart-dialog-actions">
+          <button value="cancel">계속 이어 읽기</button>
+          <button class="restart-confirm" value="confirm">기록을 지우고 시작</button>
+        </div>
+      </form>
     </dialog>
 
     <script src="./catalog.js"></script>

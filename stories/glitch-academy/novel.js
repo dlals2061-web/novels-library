@@ -10,6 +10,7 @@ const title = document.querySelector("#sceneTitle");
 const text = document.querySelector("#storyText");
 const choices = document.querySelector("#choices");
 const hologramStatus = document.querySelector("#hologramStatus");
+const restartButton = document.querySelector("#restartButton");
 
 function render() {
   const scene = story.scenes[state.sceneId] ?? story.scenes[story.initialSceneId];
@@ -102,6 +103,15 @@ function render() {
     });
     choices.append(button);
   }
+  title.focus({ preventScroll: true });
 }
+
+restartButton.addEventListener("click", () => {
+  if (!window.confirm("현재 장면과 선택 기록을 지우고 첫 장으로 돌아갈까요? 이미 도달한 결말은 서가에 남습니다.")) return;
+  state = initialState();
+  localStorage.removeItem(SAVE_KEY);
+  render();
+  window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+});
 
 render();
