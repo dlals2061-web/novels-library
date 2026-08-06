@@ -168,6 +168,36 @@ renderLibraryDashboard();
 window.addEventListener("novels:ending-recorded", renderLibraryDashboard);
 window.addEventListener("novels:activity-updated", renderLibraryDashboard);
 
+const navigationLinks = Array.from(document.querySelectorAll(".app-nav a"));
+const navigationTargets = {
+  home: document.querySelector("#home"),
+  collection: document.querySelector("#collection"),
+  shop: document.querySelector("#shop"),
+  dashboardTitle: document.querySelector("#dashboardTitle"),
+};
+
+function updateActiveNavigation() {
+  const targetEntries = Object.entries(navigationTargets).filter(([, element]) => element);
+  const closest = targetEntries.reduce((current, entry) => {
+    const [, element] = entry;
+    const distance = Math.abs(element.getBoundingClientRect().top - 120);
+    return !current || distance < current.distance ? { id: entry[0], distance } : current;
+  }, null);
+  if (!closest) return;
+  navigationLinks.forEach((link) => {
+    const isMatch = link.getAttribute("href") === `#${closest.id}`;
+    link.classList.toggle("is-active", isMatch);
+    if (isMatch) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
+}
+
+document.querySelectorAll("a[href^='#']").forEach((link) => {
+  link.addEventListener("click", () => window.setTimeout(updateActiveNavigation, 20));
+});
+window.addEventListener("scroll", updateActiveNavigation, { passive: true });
+updateActiveNavigation();
+
 function renderEndingArchive() {
   const history = window.NovelsReader?.getEndingHistory?.() ?? {};
   const archive = document.querySelector("#endingArchive");

@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <main class="library">
+    <main id="home" class="library">
       <header class="library-header">
         <div>
           <p class="kicker">선택의 서가</p>
@@ -54,6 +54,31 @@
         </div>
         <button id="installButton" class="install-button" type="button" hidden>설치</button>
       </header>
+
+      <section class="home-shortcuts" aria-labelledby="homeShortcutsTitle">
+        <div class="home-shortcuts-heading">
+          <p class="kicker">START HERE</p>
+          <h2 id="homeShortcutsTitle">오늘의 서가</h2>
+          <p>읽을 이야기와 나의 기록, 새로 도착한 작품을 한곳에서 만나보세요.</p>
+        </div>
+        <div class="home-shortcuts-grid">
+          <a class="home-shortcut home-shortcut-stories" href="#collection" data-nav-target="collection">
+            <span class="home-shortcut-icon" aria-hidden="true">▤</span>
+            <span class="home-shortcut-copy"><strong>이야기 고르기</strong><small>다섯 편의 이야기에서 시작하기</small></span>
+            <span class="home-shortcut-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="home-shortcut home-shortcut-shop" href="#shop" data-nav-target="shop">
+            <span class="home-shortcut-icon" aria-hidden="true">✦</span>
+            <span class="home-shortcut-copy"><strong>상점</strong><small>새 이야기와 수집 아이템 보기</small></span>
+            <span class="home-shortcut-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="home-shortcut home-shortcut-library" href="#dashboardTitle" data-nav-target="dashboardTitle">
+            <span class="home-shortcut-icon" aria-hidden="true">◌</span>
+            <span class="home-shortcut-copy"><strong>내 서재</strong><small>선택과 결말의 기록 돌아보기</small></span>
+            <span class="home-shortcut-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
 
       <section class="library-dashboard" aria-labelledby="dashboardTitle">
         <div class="dashboard-heading">
@@ -82,13 +107,27 @@
         <div id="continueReadingCard"></div>
       </section>
 
-      <section id="newStory" class="new-story" aria-labelledby="newStoryTitle">
-        <img src="./covers/five-seventeen-cover.webp" alt="오후 5시 17분의 우리 표지" width="400" height="600" loading="lazy" decoding="async" />
-        <div>
-          <p class="kicker">새로운 이야기</p>
-          <h2 id="newStoryTitle">오후 5시 17분의 우리</h2>
-          <p>익명의 답장과 교내 방송 사이에서, 열일곱의 마음이 자기 목소리를 찾습니다.</p>
-          <a href="./stories/five-seventeen/index.html">새 이야기 살펴보기 <span aria-hidden="true">→</span></a>
+      <section id="shop" class="shop-section" aria-labelledby="shopTitle">
+        <div class="shop-heading">
+          <div><p class="kicker">THE SHOP</p><h2 id="shopTitle">상점</h2></div>
+          <p>다음 이야기를 발견하고, 서가를 조금 더 나답게 꾸며보세요.</p>
+        </div>
+        <div class="shop-grid">
+          <article id="newStory" class="new-story" aria-labelledby="newStoryTitle">
+            <img src="./covers/five-seventeen-cover.webp" alt="오후 5시 17분의 우리 표지" width="400" height="600" loading="lazy" decoding="async" />
+            <div>
+              <p class="kicker">새로운 이야기</p>
+              <h3 id="newStoryTitle">오후 5시 17분의 우리</h3>
+              <p>익명의 답장과 교내 방송 사이에서, 열일곱의 마음이 자기 목소리를 찾습니다.</p>
+              <a href="./stories/five-seventeen/index.html">새 이야기 살펴보기 <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+          <aside class="shop-coming-soon" aria-label="준비 중인 상점 아이템">
+            <p class="kicker">COMING SOON</p>
+            <h3>서가 꾸미기</h3>
+            <p>책갈피와 테마는 곧 이곳에서 만날 수 있습니다.</p>
+            <span>준비 중</span>
+          </aside>
         </div>
       </section>
 
@@ -175,9 +214,9 @@
     </main>
 
     <nav class="app-nav" aria-label="주요 메뉴">
-      <a class="is-active" href="#dashboardTitle">홈</a>
+      <a class="is-active" href="#home">홈</a>
       <a href="#collection">서가</a>
-      <a href="#newStory">상점</a>
+      <a href="#shop">상점</a>
       <a href="#dashboardTitle">내 서재</a>
     </nav>
 
