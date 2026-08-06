@@ -3,6 +3,7 @@ const saveKeys = {
   "lightless-photos": "lightless-photos-save-v1",
   "last-letters": "last-letters-save-v1",
   "glitch-academy": "glitch-academy-save-v1",
+  "five-seventeen": "five-seventeen-save-v1",
 };
 
 const installButton = document.querySelector("#installButton");

@@ -1,7 +1,7 @@
 {
   "name": "선택의 서가",
   "short_name": "선택의 서가",
-  "description": "세 편의 선택형 텍스트 소설을 읽는 서가",
+  "description": "다섯 편의 선택형 텍스트 소설을 읽는 서가",
   "lang": "ko",
   "start_url": "./index.html",
   "scope": "./",

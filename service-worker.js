@@ -1,5 +1,5 @@
-const CACHE_NAME = "interactive-novel-library-v8";
-const ENABLED_STORIES = ["glass-season","lightless-photos","last-letters","glitch-academy"];
+const CACHE_NAME = "interactive-novel-library-v9";
+const ENABLED_STORIES = ["glass-season","lightless-photos","last-letters","glitch-academy","five-seventeen"];
 const COMMON_SHELL = [
   "./", "./index.html", "./library.css", "./design-system.css", "./catalog.js", "./library.js",
   "./reader-tools.css", "./reader-tools.js", "./manifest.webmanifest",
@@ -37,6 +37,13 @@ const STORY_SHELLS = {
     "./stories/glitch-academy/index.html", "./stories/glitch-academy/styles.css",
     "./stories/glitch-academy/story-data.js", "./stories/glitch-academy/novel.js",
     "./stories/glitch-academy/icons/icon-180.png", "./stories/glitch-academy/icons/icon-192.png", "./stories/glitch-academy/icons/icon-512.png",
+  ],
+  "five-seventeen": [
+    "./covers/five-seventeen-cover.webp", "./art/five-seventeen-ending.webp",
+    "./portraits/five-seventeen-bom.webp", "./portraits/five-seventeen-sunwoo.webp",
+    "./portraits/five-seventeen-haram.webp", "./portraits/five-seventeen-yuchan.webp",
+    "./stories/five-seventeen/index.html", "./stories/five-seventeen/styles.css",
+    "./stories/five-seventeen/story-data.js", "./stories/five-seventeen/novel.js",
   ],
 };
 const APP_SHELL = [...COMMON_SHELL, ...ENABLED_STORIES.flatMap((storyId) => STORY_SHELLS[storyId] ?? [])];

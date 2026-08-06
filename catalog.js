@@ -47,5 +47,17 @@ window.NOVELS_CATALOG = [
       "Ending E - 1초 전의 메일 (평범한 엔딩)",
       "Ending F - 관찰자의 잔상 (평범한 엔딩)"
     ]
+  },
+  {
+    "id": "five-seventeen",
+    "title": "오후 5시 17분의 우리",
+    "estimatedMinutes": 45,
+    "representativeChoices": 17,
+    "endings": [
+      "같은 주파수",
+      "늦게 도착한 답장",
+      "각자의 방송",
+      "친구라는 좋은 문장"
+    ]
   }
 ];
