@@ -16,7 +16,7 @@ function render() {
   localStorage.setItem(SAVE_KEY, JSON.stringify(state));
   chapter.textContent = scene.chapter;
   title.textContent = scene.title;
-  text.innerHTML = `${scene.ending ? `<p class="ending-label">${escapeHtml(scene.ending)}</p>` : ""}${scene.text.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}`;
+  text.innerHTML = `${scene.ending ? `<img class="ending-art" src="../../art/glitch-academy-ending.webp" alt="" width="800" height="600" decoding="async" /><p class="ending-label">${escapeHtml(scene.ending)}</p>` : ""}${scene.text.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}`;
   if (scene.ending) window.NovelsReader?.recordEnding(story.id, scene.ending);
   
   if (scene.eunseolStatus) {
