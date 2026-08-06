@@ -82,7 +82,7 @@ button:focus-visible, a:focus-visible, select:focus-visible {
   transition: border-color 160ms ease, transform 160ms ease;
 }
 .continue-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-.continue-card-cover { display: block; width: 92px; aspect-ratio: 2 / 3; object-fit: contain; box-shadow: 0 8px 22px rgba(36, 33, 30, .14); }
+.continue-card-cover { display: block; width: 92px; height: auto; aspect-ratio: 2 / 3; object-fit: contain; box-shadow: 0 8px 22px rgba(36, 33, 30, .14); }
 .continue-card-copy { min-width: 0; }
 .continue-card-copy h3 { margin: 0 0 8px; font-size: clamp(1.35rem, 3vw, 1.85rem); font-weight: 400; }
 .continue-card-location,
